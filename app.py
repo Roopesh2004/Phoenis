@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request
-from markupsafe import Markup
 from openai import OpenAI
-import markdown
+import os
 
+# Initialize OpenAI Client
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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"
+    api_key=os.getenv("NVIDIA_API_KEY")  # Add this in Render dashboard
 )
 
 app = Flask(__name__)
@@ -26,4 +26,4 @@ def home():
     return render_template("index.html", response=response_text)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
