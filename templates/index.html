@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phoenis - AI Chat</title>
     <style>
-        /* Global Styles */
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,15 +34,14 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
         }
 
-        /* Form */
         form {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             margin-bottom: 15px;
         }
 
         textarea {
-            flex: 1;
             padding: 12px;
             background: #1e1e1e;
             color: #fff;
@@ -51,6 +49,13 @@
             border-radius: 8px;
             resize: none;
             font-size: 1rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            color: #fff;
         }
 
         button {
@@ -70,7 +75,6 @@
             background: linear-gradient(135deg, #ff5e62, #ff9966);
         }
 
-        /* Response */
         .response {
             background: #1a1a1a;
             padding: 15px;
@@ -82,27 +86,11 @@
             box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
         }
 
-        /* Code Styling */
-        code {
-            background: #333;
-            padding: 2px 4px;
-            border-radius: 3px;
-            color: #ffcc00;
-        }
-
-        pre {
-            background: #2d2d2d;
-            color: #f7f7f7;
-            padding: 10px;
-            border-radius: 8px;
-            overflow-x: auto;
-        }
-
-        /* Typing Effect */
         .typing {
             border-right: 2px solid #ffcc70;
             animation: blink 0.8s steps(1) infinite;
         }
+
         @keyframes blink {
             50% { border-color: transparent; }
         }
@@ -113,6 +101,16 @@
     <div class="chat-container">
         <form method="POST">
             <textarea name="query" rows="2" placeholder="Type your question..."></textarea>
+
+            <div class="language-toggle">
+                <label>
+                    <input type="radio" name="language" value="telugu" {% if language == "telugu" %}checked{% endif %}> Telugu
+                </label>
+                <label>
+                    <input type="radio" name="language" value="english" {% if language == "english" %}checked{% endif %}> English
+                </label>
+            </div>
+
             <button type="submit">Send</button>
         </form>
 
@@ -127,7 +125,7 @@
                 if (index < text.length) {
                     box.innerHTML += text.charAt(index);
                     index++;
-                    setTimeout(typeEffect, 15); // typing speed
+                    setTimeout(typeEffect, 15);
                 } else {
                     box.classList.remove('typing');
                 }
