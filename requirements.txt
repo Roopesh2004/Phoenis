@@ -1,0 +1,4 @@
+flask==3.0.3
+openai==1.36.0
+markdown==3.6
+markupsafe==2.1.5

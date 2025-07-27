@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenis - AI Chat</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc70;
+            text-shadow: 0 0 20px #ffcc70, 0 0 40px #ff9966;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 12px;
+            background: #1e1e1e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            resize: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #ff5e62, #ff9966);
+        }
+
+        /* Response */
+        .response {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            border-left: 4px solid #ffcc70;
+            min-height: 60px;
+            font-size: 1rem;
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Code Styling */
+        code {
+            background: #333;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #ffcc00;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f7f7f7;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /* Typing Effect */
+        .typing {
+            border-right: 2px solid #ffcc70;
+            animation: blink 0.8s steps(1) infinite;
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Phoenis AI Chat</h1>
+    <div class="chat-container">
+        <form method="POST">
+            <textarea name="query" rows="2" placeholder="Type your question..."></textarea>
+            <button type="submit">Send</button>
+        </form>
+
+        {% if response %}
+        <div class="response" id="response-box"></div>
+        <script>
+            const text = {{ response|tojson }};
+            let index = 0;
+            const box = document.getElementById('response-box');
+
+            function typeEffect() {
+                if (index < text.length) {
+                    box.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeEffect, 15); // typing speed
+                } else {
+                    box.classList.remove('typing');
+                }
+            }
+            box.classList.add('typing');
+            typeEffect();
+        </script>
+        {% endif %}
+    </div>
+</body>
+</html>
